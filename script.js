@@ -137,6 +137,7 @@
   function revealFact(result, question) {
     var factPanel = dom.questionCard.querySelector("#fact-panel");
     var nextButton = dom.questionCard.querySelector("#next-question");
+    var factText = (question.fact || "").trim();
     var label = "Неправильно";
 
     if (result.status === "timeout") {
@@ -145,10 +146,16 @@
       label = "Правильно";
     }
 
-    factPanel.innerHTML =
-      '<p class="fact-label">' + label + "</p>" +
-      "<p>" + question.fact + "</p>";
-    factPanel.classList.add("is-visible");
+    if (factText) {
+      factPanel.innerHTML =
+        '<p class="fact-label">' + label + "</p>" +
+        "<p>" + factText + "</p>";
+      factPanel.classList.add("is-visible");
+    } else {
+      factPanel.innerHTML = "";
+      factPanel.classList.remove("is-visible");
+    }
+
     nextButton.disabled = false;
   }
 
