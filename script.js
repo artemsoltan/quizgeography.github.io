@@ -151,6 +151,9 @@
         '<p class="fact-label">' + label + "</p>" +
         "<p>" + factText + "</p>";
       factPanel.classList.add("is-visible");
+    } else if (result.wasCorrect) {
+      factPanel.innerHTML = '<p class="fact-label">Правильно</p>';
+      factPanel.classList.add("is-visible");
     } else {
       factPanel.innerHTML = "";
       factPanel.classList.remove("is-visible");
@@ -161,10 +164,11 @@
 
   function lockQuestion(result, question) {
     var buttons = dom.questionCard.querySelectorAll(".answer-button");
+    var showCorrectAnswer = Boolean((question.fact || "").trim()) || result.wasCorrect;
 
     buttons.forEach(function (button, index) {
       button.disabled = true;
-      button.classList.toggle("is-correct", index === question.correctIndex);
+      button.classList.toggle("is-correct", showCorrectAnswer && index === question.correctIndex);
       button.classList.toggle(
         "is-wrong",
         result.status !== "timeout" &&
